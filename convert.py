@@ -28,21 +28,22 @@ def readFile(path):
 		data=file.read()
 		soup=BeautifulSoup(data,"html.parser")
 		tb=soup.find('table')
-		rows=tb.find_all('tr')
+		if tb is not None:
+			rows=tb.find_all('tr')
 
-		for r in rows:
-			po=r.find('td')
-			po_name=po.text.strip()
-			code=po.attrs['onclick']
-			#The code needs to be parsed
-			po_data=parseCode(code)
+			for r in rows:
+				po=r.find('td')
+				po_name=po.text.strip()
+				code=po.attrs['onclick']
+				#The code needs to be parsed
+				po_data=parseCode(code)
 
-			#append postoffice name
-			po_data.insert(0,po_name)
-			#append pincode
-			po_data.insert(1, pin_code)
-			#add to parsed data
-			parsedData.append(tuple(po_data))
+				#append postoffice name
+				po_data.insert(0,po_name)
+				#append pincode
+				po_data.insert(1, pin_code)
+				#add to parsed data
+				parsedData.append(tuple(po_data))
 	#now retun
 	return parsedData
 
